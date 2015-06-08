@@ -1,0 +1,49 @@
+<project name="AirportBaggagePathfindingProblem" basedir="." default="main">
+	
+	<property name="src.dir" value="src/main"/>
+	<property name="src.unit.dir" value="src/test"/>
+	<property name="lib.dir" value="lib"/>
+    <property name="build.dir" value="build"/>
+	<property name="build.output.dir" value="build/output"/>
+	<property name="build.jar.dir" value="${build.dir}/jar"/>
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="main-class" value="com.barclays.abms.AutomatedBaggageSystem"/>
+
+	<path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+	    <pathelement location="${build.classes.dir}" />
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false"/>
+    </target>
+
+	<target name="jar" depends="compile">
+        <mkdir dir="${build.jar.dir}"/>
+        <jar destfile="${build.jar.dir}/${ant.project.name}.jar" basedir="${build.classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+	</target>
+	
+	<target name="compileTest" depends="compile" description="compile junit">
+		<javac srcdir="${src.unit.dir}" destdir="${build.classes.dir}" includeantruntime="true" classpathref="classpath"/>
+	</target>
+
+    <target name="run-tests" depends="compileTest">
+      <junit>
+         <classpath refid="classpath" />
+         <test name="com.barclays.abms.AutomatedBaggageSystemTest" />
+      </junit>
+    </target>
+
+	<target name="main" depends="jar,run-tests">
+	    <java jar="${build.jar.dir}/${ant.project.name}.jar" fork="true"/>
+	</target>
+</project>
