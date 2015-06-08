@@ -33,3 +33,15 @@ Output -> This program generates output and the output is written under output d
 
 
 
+How to execute ?
+----------------
+Once the code is checked out there are two ways to execute the code
+Pre-requisite : Input file should be present in input/input.txt 
+
+1. Go to root directory "AirportBaggagePathfindingProblem" we can see build.xml. Execute..
+
+>ant
+
+2. Import the project in eclipse.
+Open file AutomatedBaggageSystem.java
+Execute the class.
